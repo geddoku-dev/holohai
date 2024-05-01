@@ -7,7 +7,8 @@ function createWindow() {
         width: 400,
         height: 700,
         webPreferences: {
-            preload: path.join(__dirname, 'preload.js')
+            nodeIntegration: true,
+            contextIsolation: false,
         },
     });
 
@@ -15,8 +16,6 @@ function createWindow() {
         win.loadURL(`file://${__dirname}/../index.html`);
     } else {
         win.loadURL('http://localhost:3000/index.html');
-
-        win.webContents.openDevTools();
 
         require('electron-reload')(__dirname, {
             electron: path.join(__dirname,

@@ -8,6 +8,8 @@ import { getStorage, ref, uploadBytes } from 'firebase/storage';
 import { addDoc, updateDoc, doc, getFirestore, collection } from 'firebase/firestore';
 import { firebaseConfig } from '../config';
 
+console.log(firebaseConfig);
+
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const storage = getStorage(app);
