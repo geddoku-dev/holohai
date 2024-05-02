@@ -1,0 +1,11 @@
+{
+    "appName": "Holohai",
+    "login.subTitle": "Smart AI Assistant",
+    "login.placeholder.username": "Enter your username",
+    "login.placeholder.password": "Enter your password",
+    "login.rules.username": "Username is required!",
+    "login.rules.password": "Password is required!",
+    "login.autoLogin": "Save me",
+    "login.forgottenPassword": "Forgotten password?",
+    "login.submit": "Continue"
+}
