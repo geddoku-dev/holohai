@@ -9,3 +9,8 @@ export interface LoginFormValues {
     password: string;
     saveMe?: boolean;
 }
+
+export interface RegisterFormValues {
+    username: string;
+    password: string;
+}

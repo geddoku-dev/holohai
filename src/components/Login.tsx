@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import {
     LockOutlined,
     UserOutlined,
@@ -8,7 +9,7 @@ import {
     ProFormCheckbox,
     ProFormText,
 } from '@ant-design/pro-components';
-import { theme, Button } from 'antd';
+import { theme, Button, Space } from 'antd';
 import { LoginFormValues } from '../types/app';
 
 import useTranslations from '../context/useTranslations';
@@ -30,8 +31,8 @@ const Login: React.FC<ILoginProps> = ({ onFinish }) => {
         >
             <LoginForm
                 containerStyle={{ padding: 0, justifyContent: 'center', alignItems: 'center' }}
-                title={<span style={{ color: token.colorText }}>{messages['appName']}</span>}
-                subTitle={messages['login.subTitle']}
+                title={<span style={{ userSelect: 'none', color: token.colorText }}>{messages['app.name']}</span>}
+                subTitle={<span style={{ userSelect: 'none', color: token.colorTextDescription }}>{messages['app.subTitle']}</span>}
                 submitter={{
                     render: (props, _) => (
                         <Button size='large' type='primary' onClick={props.submit} style={{ width: '100%' }}>
@@ -39,38 +40,41 @@ const Login: React.FC<ILoginProps> = ({ onFinish }) => {
                         </Button>
                     ),
                 }}
+                actions={
+                    <Space className={classes.loginSubInfo}>
+                        <Link to='/register'>{messages['login.subInfo']}</Link>
+                    </Space>
+                }
                 onFinish={onFinish}
             >
-                <>
-                    <ProFormText
-                        name='username'
-                        fieldProps={{
-                            size: 'large',
-                            prefix: <UserOutlined className={'prefixIcon'} />,
-                        }}
-                        placeholder={messages['login.placeholder.username']}
-                        rules={[
-                            {
-                                required: true,
-                                message: messages['login.rules.username'],
-                            },
-                        ]}
-                    />
-                    <ProFormText.Password
-                        name='password'
-                        fieldProps={{
-                            size: 'large',
-                            prefix: <LockOutlined className={'prefixIcon'} />,
-                        }}
-                        placeholder={messages['login.placeholder.password']}
-                        rules={[
-                            {
-                                required: true,
-                                message: messages['login.rules.password'],
-                            },
-                        ]}
-                    />
-                </>
+                <ProFormText
+                    name='username'
+                    fieldProps={{
+                        size: 'large',
+                        prefix: <UserOutlined className={'prefixIcon'} />,
+                    }}
+                    placeholder={messages['login.placeholder.username']}
+                    rules={[
+                        {
+                            required: true,
+                            message: messages['login.rules.username'],
+                        },
+                    ]}
+                />
+                <ProFormText.Password
+                    name='password'
+                    fieldProps={{
+                        size: 'large',
+                        prefix: <LockOutlined className={'prefixIcon'} />,
+                    }}
+                    placeholder={messages['login.placeholder.password']}
+                    rules={[
+                        {
+                            required: true,
+                            message: messages['login.rules.password'],
+                        },
+                    ]}
+                />
                 <div style={{ marginBlockEnd: 24 }}>
                     <ProFormCheckbox noStyle name='saveMe'>
                         {messages['login.autoLogin']}
