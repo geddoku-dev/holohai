@@ -1,16 +1,21 @@
 export interface AuthUser {
-    _id?: string;
-    email?: string | null;
+    id: string;
+    email: string;
     password?: string | null;
 }
 
+export interface User {
+    id: string;
+    email: string;
+}
+
 export interface LoginFormValues {
-    username: string;
+    email: string;
     password: string;
     saveMe?: boolean;
 }
 
 export interface RegisterFormValues {
-    username: string;
+    email: string;
     password: string;
 }

@@ -1,12 +1,13 @@
 import { initializeApp } from 'firebase/app';
-import { 
-    getAuth, 
+import {
+    getAuth,
     signInWithEmailAndPassword,
-    createUserWithEmailAndPassword 
+    createUserWithEmailAndPassword
 } from 'firebase/auth';
 import { getStorage, ref, uploadBytes } from 'firebase/storage';
-import { addDoc, updateDoc, doc, getFirestore, collection } from 'firebase/firestore';
+import { updateDoc, doc, getFirestore, collection, setDoc } from 'firebase/firestore';
 import { firebaseConfig } from '../config';
+import { User } from '../types/app';
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
@@ -30,9 +31,10 @@ class FirebaseService {
         return this.auth.signOut();
     }
 
-    async addDocument(collectionName: string, data: object) {
+    async addDocument(collectionName: string, documentId: string, data: object) {
         const collectionRef = collection(this.db, collectionName);
-        return addDoc(collectionRef, data);
+        const documentRef = doc(collectionRef, documentId);
+        return setDoc(documentRef, data);
     }
 
     async updateDocument(collectionName: string, docId: string, data: object) {
@@ -43,6 +45,11 @@ class FirebaseService {
     async uploadFile(path: string, file: Blob) {
         const storageRef = ref(this.storage, path);
         return uploadBytes(storageRef, file);
+    }
+
+    async addUserToDatabase(user: User) {
+        const userToSave = { email: user.email };
+        return this.addDocument('users', user.id, userToSave);
     }
 }
 

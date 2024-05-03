@@ -1,6 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import FirebaseService from '../../firebase';
 import { AuthUser } from '../../types/app';
+import { FirebaseError } from 'firebase/app';
 
 interface AuthPayload {
     email: string;
@@ -15,9 +16,10 @@ export const loginThunk = createAsyncThunk<AuthUser, AuthPayload, any>(
             const userCredential = await firebaseService.signIn(email, password);
             
             const user: AuthUser = {
-                _id: userCredential.user.uid,
-                email: userCredential.user.email,
+                id: userCredential.user.uid,
+                email: email,
             };
+
             return user;
         } catch (error) {
             return thunkAPI.rejectWithValue(error);
@@ -32,13 +34,25 @@ export const registerThunk = createAsyncThunk<AuthUser, AuthPayload, any>(
             const firebaseService: FirebaseService = new FirebaseService();
             const userCredential = await firebaseService.register(email, password);
             
+            const id = userCredential.user.uid;
+            if (!id) {
+                throw new Error('UID not found');
+            }
+
             const user: AuthUser = {
-                _id: userCredential.user.uid,
-                email: userCredential.user.email,
+                id: id as string,
+                email: email as string,
             };
+
+            await firebaseService.addUserToDatabase(user);
+
             return user;
         } catch (error) {
-            return thunkAPI.rejectWithValue(error);
+            if (error instanceof FirebaseError) {
+                return thunkAPI.rejectWithValue('Firebase error occurred');
+            } else {
+                return thunkAPI.rejectWithValue(error);
+            }
         }
     }
 );

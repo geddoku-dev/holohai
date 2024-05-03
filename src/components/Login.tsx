@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import {
     LockOutlined,
-    UserOutlined,
+    MailOutlined,
 } from '@ant-design/icons';
 import {
     LoginForm,
@@ -48,16 +48,20 @@ const Login: React.FC<ILoginProps> = ({ onFinish }) => {
                 onFinish={onFinish}
             >
                 <ProFormText
-                    name='username'
+                    name='email'
                     fieldProps={{
                         size: 'large',
-                        prefix: <UserOutlined className={'prefixIcon'} />,
+                        prefix: <MailOutlined className={'prefixIcon'} />,
                     }}
-                    placeholder={messages['login.placeholder.username']}
+                    placeholder={messages['login.placeholder.email']}
                     rules={[
                         {
+                            type: 'email',
+                            message: messages['login.rules.email.format'],
+                        },
+                        {
                             required: true,
-                            message: messages['login.rules.username'],
+                            message: messages['login.rules.email.required'],
                         },
                     ]}
                 />

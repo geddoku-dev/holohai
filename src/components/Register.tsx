@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import {
     LockOutlined,
-    UserOutlined,
+    MailOutlined,
 } from '@ant-design/icons';
 import {
     LoginForm,
@@ -18,10 +18,11 @@ import classes from './Register.module.css';
 
 
 interface IRegisterProps {
+    loading: boolean;
     onFinish: (values: RegisterFormValues) => void;
 }
 
-const Register: React.FC<IRegisterProps> = ({ onFinish }) => {
+const Register: React.FC<IRegisterProps> = ({ loading, onFinish }) => {
     const { token } = theme.useToken();
     const messages = useTranslations();
 
@@ -72,7 +73,13 @@ const Register: React.FC<IRegisterProps> = ({ onFinish }) => {
                 subTitle={<span style={{ userSelect: 'none', color: token.colorTextDescription }}>{messages['app.subTitle']}</span>}
                 submitter={{
                     render: (props, _) => (
-                        <Button size='large' type='primary' onClick={props.submit} style={{ width: '100%' }}>
+                        <Button
+                            size='large'
+                            type='primary'
+                            onClick={props.submit}
+                            style={{ width: '100%' }}
+                            loading={loading}
+                        >
                             {messages['register.submit']}
                         </Button>
                     ),
@@ -85,16 +92,20 @@ const Register: React.FC<IRegisterProps> = ({ onFinish }) => {
                 onFinish={onFinish}
             >
                 <ProFormText
-                    name='username'
+                    name='email'
                     fieldProps={{
                         size: 'large',
-                        prefix: <UserOutlined className={'prefixIcon'} />,
+                        prefix: <MailOutlined className={'prefixIcon'} />,
                     }}
-                    placeholder={messages['register.placeholder.username']}
+                    placeholder={messages['register.placeholder.email']}
                     rules={[
                         {
+                            type: 'email',
+                            message: messages['register.rules.email.format'],
+                        },
+                        {
                             required: true,
-                            message: messages['register.rules.username'],
+                            message: messages['register.rules.email.required'],
                         },
                     ]}
                 />
